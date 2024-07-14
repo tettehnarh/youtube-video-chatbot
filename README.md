@@ -31,6 +31,33 @@ This project downloads the audio from a YouTube video, transcribes it using Open
    pip install openai pytube
    ```
 
+   **Locate `cipher.py`**:
+
+   - Navigate to the `pytube` library directory. If using a virtual environment, it will be under:
+     ```sh
+     venv/lib/pythonX.X/site-packages/pytube/cipher.py
+     ```
+   - Replace `pythonX.X` with your Python version (e.g., `python3.9`).
+
+   **Edit `cipher.py`**:
+
+   - Open `cipher.py` and locate line 264.
+   - Replace the existing line with the following code:
+     ```python
+     function_patterns = [
+         # https://github.com/ytdl-org/youtube-dl/issues/29326#issuecomment-865985377
+         # https://github.com/yt-dlp/yt-dlp/commit/48416bc4a8f1d5ff07d5977659cb8ece7640dcd8
+         # var Bpa = [iha];
+         # ...
+         # a.C && (b = a.get("n")) && (b = Bpa[0](b), a.set("n", b),
+         # Bpa.length || iha("")) }};
+         # In the above case, `iha` is the relevant function name
+         r'a\.[a-zA-Z]\s*&&\s*\([a-z]\s*=\s*a\.get\("n"\)\)\s*&&.*?\|\|\s*([a-z]+)',
+         r'\([a-z]\s*=\s*([a-zA-Z0-9$]+)(\[\d+\])?\([a-z]\)',
+         r'\([a-z]\s*=\s*([a-zA-Z0-9$]+)(\[\d+\])\([a-z]\)',
+     ]
+     ```
+
 4. **Create a `config.py` file with your OpenAI API key**:
    ```python
    # config.py
