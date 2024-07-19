@@ -1,6 +1,6 @@
 # Video to Speech Chatbot
 
-This project downloads the audio from a YouTube video, transcribes it using OpenAI's Whisper model, and allows interaction with the transcript using an OpenAI chat model in a command-line interface.
+This project streams the audio from a YouTube video, transcribes it using OpenAI's Whisper model, and allows interaction with the transcript using an OpenAI chat model in a command-line interface.
 
 ## Setup
 
@@ -8,6 +8,7 @@ This project downloads the audio from a YouTube video, transcribes it using Open
 
 - Python 3.7+
 - OpenAI API Key
+- pip
 
 ### Installation
 
@@ -28,10 +29,20 @@ This project downloads the audio from a YouTube video, transcribes it using Open
 3. **Install the required packages**:
 
    ```sh
-   pip install openai pytube
+   pip install openai pytube requests
    ```
 
-   **Locate `cipher.py`**:
+4. **Create a `config.py` file in the root folder with your OpenAI API key**:
+   ```python
+   # config.py
+   API_KEY = "your_openai_api_key_here"
+   ```
+
+### Update `cipher.py` for PyTube
+
+Due to an issue with PyTube, you need to manually update the `cipher.py` file to enable video downloads:
+
+1. **Locate `cipher.py`**:
 
    - Navigate to the `pytube` library directory. If using a virtual environment, it will be under:
      ```sh
@@ -39,8 +50,7 @@ This project downloads the audio from a YouTube video, transcribes it using Open
      ```
    - Replace `pythonX.X` with your Python version (e.g., `python3.9`).
 
-   **Edit `cipher.py`**:
-
+2. **Edit `cipher.py`**:
    - Open `cipher.py` and locate line 264.
    - Replace the existing line with the following code:
      ```python
@@ -58,12 +68,6 @@ This project downloads the audio from a YouTube video, transcribes it using Open
      ]
      ```
 
-4. **Create a `config.py` file with your OpenAI API key**:
-   ```python
-   # config.py
-   API_KEY = "your_openai_api_key_here"
-   ```
-
 ## Usage
 
 1. **Run the script**:
@@ -73,7 +77,7 @@ This project downloads the audio from a YouTube video, transcribes it using Open
    ```
 
 2. **Follow the prompts to interact with the transcript of the video**:
-   - The script will download the audio from the provided YouTube URL.
+   - The script will stream the audio from the provided YouTube URL.
    - The audio will be transcribed using the Whisper model.
    - You can interact with the transcript using the chatbot.
    - Type `exit`, `quit`, or `q` to exit the chatbot.
